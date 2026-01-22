@@ -43,9 +43,16 @@ Initial testing will include correct behavior of the model in the **environment*
 
 - ChatGPT for brainstorming, debugging.
 
+## Meet with Instructor
+
+Week 3: 1/21/26 - 10:45 AM
+
 ## Balatro Terms Reference
 
-Ante: The level or stage in a game of Balatro from 1-8.  
+Ante: The level or stage in a game of Balatro from 1-8. 
+
 Blind: A score goal that must be met in order to progress through an Ante.  
+
 Joker Cards: Unique items that give players different abilities and score multipliers.  
+
 Tarot Cards: Consumables that allow players to modify their cards and deck.  
