@@ -6,11 +6,11 @@ title:  Team
 # {{ page.title }}
 
 
-## USER 1
+## Abhinav Uppala
 ***UCI Net ID***: auppala
 
-## USER 2
+## Kanhai Wadekar
 ***UCI Net ID***: kwadekar
 
-## USER 3
+## Khang Tran
 ***UCI Net ID***: khangmt
