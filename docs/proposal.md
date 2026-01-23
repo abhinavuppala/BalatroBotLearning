@@ -43,10 +43,6 @@ Initial testing will include correct behavior of the model in the **environment*
 
 - ChatGPT for brainstorming, debugging.
 
-## Meet with Instructor
-
-Week 3: 1/21/26 - 10:45 AM
-
 ## Balatro Terms Reference
 
 Ante: The level or stage in a game of Balatro from 1-8. 
