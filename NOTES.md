@@ -1,0 +1,2 @@
+- Botting API expects 1-indexed return values
+- Make sure to check JSON structure from tests/example_gamestate to see what type you should expect for an object
