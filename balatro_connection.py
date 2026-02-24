@@ -5,6 +5,9 @@ from enum import Enum
 import random
 import time
 
+import argparse
+import os
+
 
 class State(Enum):
     SELECTING_HAND = 1
@@ -142,3 +145,20 @@ class BalatroConnection:
             seed = seed[:-1] + "A"
 
         return seed
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Run Balatro")
+    parser.add_argument("--port", type=int, default=12346, help="Bot port for Balatro")
+    args = parser.parse_args()
+
+    print(f"Starting Balatro on port {args.port}...")
+    conn = BalatroConnection(bot_port=args.port)
+    try:
+        conn.start_balatro_instance()
+        while True:
+            time.sleep(10)
+            print('.', end='')
+    finally:
+        conn.stop_balatro_instance()
+        print()
+        print("Stopped Balatro.")
