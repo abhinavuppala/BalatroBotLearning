@@ -15,8 +15,11 @@ far as possible.
 - https://github.com/giewev/balatrobot
 - https://www.youtube.com/watch?v=EFEauLTZZJ0
 
+### Other Links:
 - [Proposal](proposal.html)
 - [Status](status.html)
 - [Final](final.html)
+
+
 
 ![Balatro Mainscreen](https://frostilyte.ca/wp-content/uploads/2024/03/balatro-banner.png?w=816)
