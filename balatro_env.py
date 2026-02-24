@@ -75,6 +75,8 @@ class BalatroEnv(gym.Env):
         run_balatro: bool = True,
         connection: Optional[BalatroConnection] = None,
         reward_game_over: float = -1.0,
+        reward_chips_per_hand_scale: float = 0.0,
+        reward_round_clear: float = 0.0,
         max_steps_per_episode: Optional[int] = None,
     ):
         """
@@ -86,6 +88,8 @@ class BalatroEnv(gym.Env):
             run_balatro: If True and connection not provided, start Balatro.exe in reset().
             connection: Reuse an existing connection (e.g. from a Bot); if set, run_balatro ignored.
             reward_game_over: Reward when episode ends (game over).
+            reward_chips_per_hand_scale: Scale factor for chips delta when we play/discard a hand (e.g. 0.001).
+            reward_round_clear: Bonus when we beat a blind (next_G["round"] > G["round"]).
             max_steps_per_episode: Truncate after this many steps (optional).
         """
         super().__init__()
@@ -93,6 +97,8 @@ class BalatroEnv(gym.Env):
         self._stake = stake
         self._seed = seed
         self._reward_game_over = reward_game_over
+        self._reward_chips_scale = reward_chips_per_hand_scale
+        self._reward_round_clear = reward_round_clear
         self._max_steps = max_steps_per_episode
         self._run_balatro = run_balatro and (connection is None)
         self._connection = connection or BalatroConnection(bot_port=bot_port)
@@ -187,7 +193,21 @@ class BalatroEnv(gym.Env):
         self._current_G = next_G
 
         terminated = _is_game_over(next_G)
-        reward = self._reward_game_over if terminated else 0.0
+        reward = 0.0
+        if terminated:
+            reward += self._reward_game_over
+        else:
+            if self._reward_chips_scale != 0 and G.get("waitingFor") == "select_cards_from_hand":
+                chips_prev = float(G.get("chips") or 0)
+                chips_next = float(next_G.get("chips") or 0)
+                chips_delta = chips_next - chips_prev
+                if chips_delta > 0:
+                    reward += self._reward_chips_scale * chips_delta
+            if self._reward_round_clear != 0:
+                round_prev = float(G.get("round") or 0)
+                round_next = float(next_G.get("round") or 0)
+                if round_next > round_prev:
+                    reward += self._reward_round_clear
         truncated = False
         if self._max_steps is not None and self._steps >= self._max_steps:
             truncated = True

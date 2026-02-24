@@ -33,7 +33,9 @@ def _safe_get(obj: Any, *keys: Any, default: Any = 0) -> Any:
 
 
 def _extract_metrics_from_rollout_infos(infos: List[Dict[str, Any]]) -> Dict[str, float]:
-    """Compute Balatro-specific metrics from a rollout's info dicts (each has raw_state = G)."""
+    """Compute Balatro-specific metrics from a rollout's info dicts.
+    Each info has raw_state = G (dict) or, under VecEnv, raw_state = [G] (list of one dict).
+    """
     rounds: List[float] = []
     chips_required_list: List[float] = []
     chips_list: List[float] = []
@@ -42,7 +44,11 @@ def _extract_metrics_from_rollout_infos(infos: List[Dict[str, Any]]) -> Dict[str
     for info in infos:
         if not isinstance(info, dict):
             continue
-        G = info.get("raw_state") or {}
+        raw = info.get("raw_state")
+        if isinstance(raw, list) and len(raw) > 0:
+            G = raw[0] if isinstance(raw[0], dict) else {}
+        else:
+            G = raw if isinstance(raw, dict) else {}
         r = _safe_get(G, "round")
         if r is not None:
             rounds.append(float(r))
@@ -73,23 +79,29 @@ def _extract_metrics_from_rollout_infos(infos: List[Dict[str, Any]]) -> Dict[str
 class BalatroTensorboardCallback(BaseCallback):
     """
     Logs Balatro game metrics to TensorBoard each rollout from env step infos.
-    Requires info['raw_state'] to be the game state dict G.
+    SB3's RolloutBuffer does not store infos, so we accumulate them in _on_step from self.locals.
     """
 
+    def __init__(self, verbose: int = 0):
+        super().__init__(verbose)
+        self._rollout_infos: List[Dict[str, Any]] = []
+
+    def _on_rollout_start(self) -> None:
+        self._rollout_infos = []
+
     def _on_step(self) -> bool:
+        infos = self.locals.get("infos", None)
+        if infos is not None:
+            if isinstance(infos, list):
+                self._rollout_infos.extend(infos)
+            elif isinstance(infos, dict):
+                self._rollout_infos.append(infos)
         return True
 
     def _on_rollout_end(self) -> None:
-        raw_infos = getattr(self.model.rollout_buffer, "infos", None)
-        if not raw_infos or not self.logger:
+        if not self._rollout_infos or not self.logger:
             return
-        # Flatten: single env -> list of dicts; VecEnv -> list of list of dicts
-        infos: List[Dict[str, Any]] = []
-        for x in raw_infos:
-            if isinstance(x, dict):
-                infos.append(x)
-            elif isinstance(x, (list, tuple)):
-                infos.extend(i for i in x if isinstance(i, dict))
-        metrics = _extract_metrics_from_rollout_infos(infos)
+        metrics = _extract_metrics_from_rollout_infos(self._rollout_infos)
         for name, value in metrics.items():
             self.logger.record(name, value)
+        self._rollout_infos = []

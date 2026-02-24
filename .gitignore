@@ -1,3 +1,4 @@
 gamestate_cache
 __pycache__
 Balatro
+/logs/ppo_balatro/MaskablePPO*

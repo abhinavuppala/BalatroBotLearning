@@ -18,4 +18,6 @@ Training the model starts through `train_ppo.py`, and it can either automaticall
 2. Run: `python train_ppo.py [--no-run-balatro] [--port 12348] [--total-timesteps 50000]`. Currently it's very slow as it runs only one Balatro instance on your computer and uses it to train. It will print a status update every 128 trainsteps.
 3. Run `tensorboard --logdir logs/ppo_balatro` to start a live Tensorboard server for live metrics.
 
+Logs will automatically be saved to `tests/` directory, and models will be saved by default as `ppo_balatro.zip` once the training process is stopped. We keep the models trained in the `models/` directory, and specific logs we want to show in git should be renamed so that it doesn't start with MaskablePPO.
+
 The balatrobot mod & API was developed by [besteon](https://github.com/besteon/balatrobot)

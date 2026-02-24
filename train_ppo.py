@@ -37,6 +37,8 @@ def main():
     parser.add_argument("--seed", type=int, default=None)
     parser.add_argument("--max-steps", type=int, default=None, help="Truncate episode after N steps (optional)")
     parser.add_argument("--tensorboard-log", type=str, default="logs/ppo_balatro", help="TensorBoard log dir (set to '' to disable)")
+    parser.add_argument("--reward-chips-scale", type=float, default=0.001, help="Scale for chips-per-hand reward (0 to disable)")
+    parser.add_argument("--reward-round-clear", type=float, default=1.0, help="Bonus when beating a blind (0 to disable)")
     args = parser.parse_args()
 
     try:
@@ -58,6 +60,8 @@ def main():
         stake=args.stake,
         seed=str(args.seed) if args.seed is not None else None,
         run_balatro=run_balatro,
+        reward_chips_per_hand_scale=args.reward_chips_scale,
+        reward_round_clear=args.reward_round_clear,
         max_steps_per_episode=args.max_steps,
     )
 
