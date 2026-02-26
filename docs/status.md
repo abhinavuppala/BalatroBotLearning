@@ -3,7 +3,7 @@ layout: default
 title: Status
 ---
 
-TODO add video here
+[![Status Report Video](https://youtu.be/YFJ8Lg-jCeE)](https://youtu.be/YFJ8Lg-jCeE)
 
 ## Summary
 
