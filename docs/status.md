@@ -5,6 +5,8 @@ title: Status
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/YFJ8Lg-jCeE?si=sUlCtCSi5zOUut5I" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
+Couldn't figure out how to get it properly embedded
+
 ## Summary
 
 Our project aims to create an agent using reinforcement learning to play and beat the hit game Balatro. Balatro is a single-player deck builder game centered around poker hands and involves strategy in building the optimal deck and finding the best synergizing set of “Joker” cards. This synergy allows players to achieve higher scoring combinations and progress further in the game.
@@ -86,11 +88,11 @@ The biggest challenge we expect leading up to our final report is infrastructure
 
 Our current prototype is much more limited than the final goal. For starters, we began writing our botting script on a different API. When translated to the current API we decided to work with, it behaved differently, leading to more bugs and difficulty in gathering data. For our end result, we want to define its behavior clearly so that it handles every game state well. 
 
-At the same time as using the botting API setup, we are looking into using a gymnasium-simulated environment for a training pipeline. However, this is proving to be quite difficult due to lack of documentation among other issues. Furthermore, getting it working on HCP3 would be another challenge following this. 
+At the same time as using the botting API setup, we have been looking into using a gymnasium-simulated environment for a training pipeline. We have it working on our local machines currently, but getting it working on HCP3 is proving to be more challenging due to configuration issues with cpu/gpus and other problems. 
 
 Another issue would be having enough time to produce meaningful results. Even with the faster training-loops provided by Gymnasium, the amount of time needed to create a well-performing agent is unpredictable, and we worry that there won’t be enough time to do this on top of creating visuals to evaluate our data.
 
-If time permits, we also plan to look into other methods like Deep Q Learning. Since DQN is off-policy, it’s able to look to past experiences to influence the current policy, allowing us to add imagined experience and encourage a more effective playstyle.
+If time permits, we also plan to look into other methods like Deep Q Learning. Since DQN is off-policy, it’s able to look to past experiences to influence the current policy, allowing us to add imagined experience and encourage a more effective playstyle. Furthermore, we plan to fine-tune the reward function and other hyperparameters to encourage a balanced playstyle that can carry the agent to a win long term.
 
 ## Resources Used
 
