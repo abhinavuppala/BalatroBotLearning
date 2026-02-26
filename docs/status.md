@@ -3,7 +3,7 @@ layout: default
 title: Status
 ---
 
-[![Status Report Video](https://youtu.be/YFJ8Lg-jCeE)](https://youtu.be/YFJ8Lg-jCeE)
+<iframe width="560" height="315" src="https://www.youtube.com/embed/YFJ8Lg-jCeE?si=sUlCtCSi5zOUut5I" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ## Summary
 
