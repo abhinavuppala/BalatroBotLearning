@@ -1,0 +1,43 @@
+{
+  "os":  "Windows-10-10.0.26200-SP0",
+  "python":  "CPython 3.11.14",
+  "startedAt":  "2026-02-25T20:22:50.023456Z",
+  "args":  [
+    "--node-ip-address=127.0.0.1",
+    "--node-manager-port=56081",
+    "--object-store-name=tcp://127.0.0.1:58668",
+    "--raylet-name=tcp://127.0.0.1:61238",
+    "--redis-address=None",
+    "--metrics-agent-port=0",
+    "--logging-rotate-bytes=536870912",
+    "--logging-rotate-backup-count=5",
+    "--runtime-env-agent-port=0",
+    "--gcs-address=127.0.0.1:56062",
+    "--session-name=session_2026-02-25_12-22-09_091240_42904",
+    "--temp-dir=C:\\Users\\abhin\\AppData\\Local\\Temp\\ray",
+    "--webui=",
+    "--cluster-id=8f6f2bde02599265f652c3116e9f8385f9cdcd5bbece9eb04d3d4dd9",
+    "--worker-id=79239dce25f3bc4f36e47a5954bd44c3cc063b57717316a969f8c1d0",
+    "--worker-launch-time-ms=1772050932727",
+    "--node-id=7c747e17cecbc8a40816369e8da622b217ef49ee6a5030714001ee57",
+    "--runtime-env-hash=0"
+  ],
+  "program":  "C:\\Users\\abhin\\anaconda3\\envs\\balatrosim\\Lib\\site-packages\\ray\\_private\\workers\\default_worker.py",
+  "codePath":  "..\\..\\..\\..\\..\\..\\..\\..\\..\\..\\anaconda3\\envs\\balatrosim\\Lib\\site-packages\\ray\\_private\\workers\\default_worker.py",
+  "codePathLocal":  "..\\..\\..\\..\\..\\..\\..\\..\\..\\..\\anaconda3\\envs\\balatrosim\\Lib\\site-packages\\ray\\_private\\workers\\default_worker.py",
+  "root":  "C:\\Users\\abhin\\AppData\\Local\\Temp\\ray\\session_2026-02-25_12-22-09_091240_42904\\artifacts\\2026-02-25_12-22-14\\blind_shop\\driver_artifacts\\blind_shop_ac1e0_00000_0_2026-02-25_12-22-14",
+  "host":  "Lakshmi-Yoga970",
+  "executable":  "C:\\Users\\abhin\\anaconda3\\envs\\balatrosim\\python.exe",
+  "cpu_count":  12,
+  "cpu_count_logical":  16,
+  "disk":  {
+    "/":  {
+      "total":  "508693573632",
+      "used":  "476967575552"
+    }
+  },
+  "memory":  {
+    "total":  "16890978304"
+  },
+  "writerId":  "g577y6wmxjzsob1e6nixvlxxs9jp81yj"
+}
