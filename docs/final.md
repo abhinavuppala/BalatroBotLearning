@@ -129,25 +129,29 @@ We trained 3 different bots using these hyperparameters as starting points, with
 
 For evaluation, we have some custom metrics such as mean chips scored per rollout and max round reached per rollout.
 
-![Max Round Reached Graph](imgs\cs175_statusreport_chart1.png)
+<!-- ![Max Round Reached Graph](imgs\cs175_statusreport_chart1.png){: width="500px" } -->
+<img src="imgs\cs175_statusreport_chart1.png" alt="Max Round Reached Graph" width="500px">
 
 We use max round reached as a way to observe how close the agent is to beating the game, as fundamentally, the more rounds completed means the closer the agent is to winning the game. In our case here, we can see it starts off as mostly ending at Round 1 every time, and gradually it more consistently is able to reach Round 2.
 
 Additionally, we use qualitative evaluation by watching the agent play the game, which can reveal trends harder to see otherwise. For instance, introducing a reward for playing chips makes the agent always play hands rather than discarding, in order to get an immediate reward. However, we need the model to learn some kind of delayed gratification, since high-value hands like a flush or full house are far more valuable than something like a high card, scoring around 300 vs. 15 points respectively.
 
-![Mean Chips Graph](imgs\cs175_statusreport_chart2.png)
+<!-- ![Mean Chips Graph](imgs\cs175_statusreport_chart2.png){: width="500px" } -->
+<img src="imgs\cs175_statusreport_chart2.png" alt="Mean Chips Graph" width="500px">
 
 We use mean chips per hand as a way to more accurately measure the agent’s performance in game. Since chips scale higher as rounds go up, the two metrics are related; however, mean chips provide a more specific look at the performance. For instance, here it is much more clearer that the model is improving and scoring more chips per round.
 
 ### Approach 2 - Gymnasium Simulation
 
-![Mean Round Graph](imgs\final_round_mean.png)
+<!-- ![Mean Round Graph](imgs\final_round_mean.png){: width="500px" } -->
+<img src="imgs\final_round_mean.png" alt="Mean Round Graph" width="500px">
 
 As seen from the mean round graph for the gymnasium simulation vs. the balatrobot API version, we achieved a far better result on either of the 3 bots here than compared to the botting one. The improved training speed & ability to use HPC3 with the simulated approach exponentially improved our training time, allowing us to do over 1k total trainsteps per bot.
 
 The graph shows bot 1, 2, and 3 eventually all reaching an average round of about 6 (ie. beating Ante 2 on average). This means we beat our baseline goal of beating Ante 1 50% of the time! As we can see, bot 2 and 3 reached the average round 6 much faster but stagnated around there, while bot 1 gradually reached there.
 
-![Mean Chips Graph](imgs\final_chips_mean.png)
+<!-- ![Mean Chips Graph](imgs\final_chips_mean.png){: width="500px" } -->
+<img src="imgs\final_chips_mean.png" alt="Mean Chips Graph" width="500px">
 
 However, the mean chips scored shows a different story. While bot 2 and 3 are stuck around 3000 chips on average, bot 1 consistently increased, averaging around 8-9000 chips scored with a lot of fluctuation.
 
@@ -155,9 +159,11 @@ Since chips scale exponentially with respect to round in Balatro, we can infer w
 
 Essentially, bot 2 and 3 are much more consistent in the early game but it's much rarer that it makes it past then. However, while bot 1 loses early quite often, when it's able to get a good run going, it makes it much further.
 
-![Round 12 (Ante 4) Won Mean](imgs\round12_won_mean.png)
+<!-- ![Round 12 (Ante 4) Won Mean](imgs\round12_won_mean.png){: width="500px" } -->
+<img src="imgs\round12_won_mean.png" alt="Round 12 (Ante 4) Won Mean" width="500px">
 
-![Round 24 (Ante 8) Won Mean](imgs\round24_won_mean.png)
+<!-- ![Round 24 (Ante 8) Won Mean](imgs\round24_won_mean.png){: width="500px" } -->
+<img src="imgs\round24_won_mean.png" alt="Round 24 (Ante 8) Won Mean" width="500px">
 
 These graphs support the claim above, as bot 1 beat ante 4 around 20% of the time while bot 2 and 3 only beat ante 4 around 2-3% of the time. Similarly, bot 1 is able to beat ante 8 (ie. beat the game) around 2% of the time, while bot 2 and 3 only do this maybe 0.4% of the time.
 
