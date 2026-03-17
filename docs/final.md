@@ -17,6 +17,12 @@ The output of the agent will be a discrete decision from a large set of actions,
 
 Our project focuses on Multi Agent Reinforcement Learning, using Proximal Policy Optimization (PPO). Initially we used a botting script to have the model read game state from the actual game for training; however, this proved to be very slow so we pivoted to a simulated gym environment method.
 
+### Project Goals
+
+- [✓] Minimum Goal: Agent **beats Ante 1 50%** of the time
+- [✓] Realistic Goal: Agent **beats Ante 4 10%** of the time
+- [✕] Moonshot Goal: Agent **beats Ante 8 10%** of the time
+
 ## Approach
 
 We used two main approaches throughout our development. Initially, we used the BalatroBot API and ran the game locally for training, using the actual game state to train our model. While this worked, it was very slow, bounded by the game and our laptop's speed as it couldn't be run on HPC3.
@@ -107,7 +113,19 @@ Action space
   * First we choose play vs. discard, then choosing which cards from the hand to play or discard
 * Shop: Custom masked space depending on shop phase
 
-## **UNFINISHED** Evaluation
+We trained 3 different bots using these hyperparameters as starting points, with the following thought processes
+
+* **Bot 1:** Balanced - the aim was to beat the early game and mainly just learn to use mechanics rather than doing anything too clever.
+* **Bot 2:** Future-Thinking - this time, we focused more on future potential rewards and using the jokers more effectively.
+  * `jokers_in_hand_attention = False -> True` so it would pay more attention to jokers it had when playing hands
+  * `discard_potential_reward = 0.0 -> 0.1` to reward discarding when it results in it getting a better future hand
+* **Bot 3:** Synergizing - this time, we aimed to encourage more long-term point scoring by rewarding joker synergies.
+  * `joker_synergy_bonus = 0.0 -> 0.1` to reward jokers that play better together (ex: jokers that give additive & multiplicative mult)
+  * `rarity_bonus = 0.0 -> 0.1` to reward rarer jokers as they tend to be better/more specialized
+
+## Evaluation
+
+### Approach 1 - BalatroBot API
 
 For evaluation, we have some custom metrics such as mean chips scored per rollout and max round reached per rollout.
 
@@ -119,19 +137,41 @@ Additionally, we use qualitative evaluation by watching the agent play the game,
 
 ![Mean Chips Graph](imgs\cs175_statusreport_chart2.png)
 
-We use mean chips per rollout as a way to more accurately measure the agent’s performance in game. Since chips scale higher as rounds go up, the two metrics are related; however, mean chips provide a more specific look at the performance. For instance, here it is much more clearer that the model is improving and scoring more chips per round.
+We use mean chips per hand as a way to more accurately measure the agent’s performance in game. Since chips scale higher as rounds go up, the two metrics are related; however, mean chips provide a more specific look at the performance. For instance, here it is much more clearer that the model is improving and scoring more chips per round.
 
-## **UNFINISHED** Remaining Goals and Challenges
+### Approach 2 - Gymnasium Simulation
 
-The biggest challenge we expect leading up to our final report is infrastructure.
+![Mean Round Graph](imgs\final_round_mean.png)
 
-Our current prototype is much more limited than the final goal. For starters, we began writing our botting script on a different API. When translated to the current API we decided to work with, it behaved differently, leading to more bugs and difficulty in gathering data. For our end result, we want to define its behavior clearly so that it handles every game state well. 
+As seen from the mean round graph for the gymnasium simulation vs. the balatrobot API version, we achieved a far better result on either of the 3 bots here than compared to the botting one. The improved training speed & ability to use HPC3 with the simulated approach exponentially improved our training time, allowing us to do over 1k total trainsteps per bot.
 
-At the same time as using the botting API setup, we have been looking into using a gymnasium-simulated environment for a training pipeline. We have it working on our local machines currently, but getting it working on HCP3 is proving to be more challenging due to configuration issues with cpu/gpus and other problems. 
+The graph shows bot 1, 2, and 3 eventually all reaching an average round of about 6 (ie. beating Ante 2 on average). This means we beat our baseline goal of beating Ante 1 50% of the time! As we can see, bot 2 and 3 reached the average round 6 much faster but stagnated around there, while bot 1 gradually reached there.
 
-Another issue would be having enough time to produce meaningful results. Even with the faster training-loops provided by Gymnasium, the amount of time needed to create a well-performing agent is unpredictable, and we worry that there won’t be enough time to do this on top of creating visuals to evaluate our data.
+![Mean Chips Graph](imgs\final_chips_mean.png)
 
-If time permits, we also plan to look into other methods like Deep Q Learning. Since DQN is off-policy, it’s able to look to past experiences to influence the current policy, allowing us to add imagined experience and encourage a more effective playstyle. Furthermore, we plan to fine-tune the reward function and other hyperparameters to encourage a balanced playstyle that can carry the agent to a win long term.
+However, the mean chips scored shows a different story. While bot 2 and 3 are stuck around 3000 chips on average, bot 1 consistently increased, averaging around 8-9000 chips scored with a lot of fluctuation.
+
+Since chips scale exponentially with respect to round in Balatro, we can infer what happened with bot 1 vs bots 2 & 3. Since bot 1 has a much higher chips scored average than bot 2, it likely means that bot 1 has more rounds that went much further than any games with bot 2 or 3 did, while it also had a lot more rounds that made it much less far.
+
+Essentially, bot 2 and 3 are much more consistent in the early game but it's much rarer that it makes it past then. However, while bot 1 loses early quite often, when it's able to get a good run going, it makes it much further.
+
+![Round 12 (Ante 4) Won Mean](imgs\round12_won_mean.png)
+
+![Round 24 (Ante 8) Won Mean](imgs\round24_won_mean.png)
+
+These graphs support the claim above, as bot 1 beat ante 4 around 20% of the time while bot 2 and 3 only beat ante 4 around 2-3% of the time. Similarly, bot 1 is able to beat ante 8 (ie. beat the game) around 2% of the time, while bot 2 and 3 only do this maybe 0.4% of the time.
+
+## Insights & Future Improvements
+
+Our realistic goal was to beat Ante 4 (round 12) 10% of the time, which we achieved with bot 1 as we got around a 20% winrate of Ante 4.
+
+However, we weren't able to achieve our moonshot goal of beating Ante 8 10% of the time; we only got to around a 2% winrate here.
+
+The biggest challenges we faced throughout the project was environment setup challenges, as we had to try many different versions and training pipelines to finally get something working. As a result, we didn't have as much time as we would've liked to fine-tune hyperparameters or reward functions.
+
+One such improvement could be an adaptive reward function that puts more weight to general joker purchases early game, while putting more weight to joker synergies late-game. The biggest weakness of bot 2 and 3 is that they weren't able to get good runs off the ground and running because they were too picky with jokers or hands played. As a result they had less opportunities to look for game-winning jokers, while bot 1 would buy whatever it could, getting it past early game and giving it more opportunities to find better jokers. If we could combine the best of both worlds, we might be able to achieve a better winrate.
+
+If time permits, we could also look into other methods like Deep Q Learning. Since DQN is off-policy, it’s able to look to past experiences to influence the current policy, allowing us to add imagined experience and encourage a more effective playstyle from real good Balatro players.
 
 ## Resources Used
 
