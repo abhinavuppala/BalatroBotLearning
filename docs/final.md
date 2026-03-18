@@ -2,8 +2,7 @@
 layout: default
 title: Final Report
 ---
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/YFJ8Lg-jCeE?si=sUlCtCSi5zOUut5I" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/BlhkdbiIIoE?si=npd3_6WQ_zcs3QMe" title="YouTube Video Player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 Couldn't figure out how to get it properly embedded
 
